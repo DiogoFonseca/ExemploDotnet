@@ -1,0 +1,13 @@
+services:
+  backend:
+    build:
+      context: ./capacitacaoDocker
+      dockerfile: capacitacaoDocker/Dockerfile
+      target: production
+    ports:
+      - 5000:80
+  frontend:
+    build:
+      context: ./capacitacao-docker-front
+    ports:
+      - 80:80
