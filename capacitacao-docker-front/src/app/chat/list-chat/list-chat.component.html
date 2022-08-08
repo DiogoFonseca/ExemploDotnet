@@ -1,0 +1,14 @@
+<div class="row mt-4 mb-2">
+  <h2>Histórico de mensagens</h2>
+  <div *ngIf="listMessages.length === 0">
+    <p>Nenhuma mensagem...</p>
+  </div>
+  <ul class="list-group" *ngIf="listMessages.length > 0">
+    <li class="list-group-item d-flex"
+        *ngFor="let message of listMessages"
+        [ngClass]="message.type === 'going' ? 'justify-content-start': 'justify-content-end'"
+    >
+      {{message.date.toLocaleString('pt-BR')}}: {{message.type === 'going' ? 'Enviado - ': 'Recebido - '}}{{message.message}}
+    </li>
+  </ul>
+</div>
