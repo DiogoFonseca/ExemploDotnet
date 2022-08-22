@@ -15,9 +15,6 @@ jobs:
       name: Checkout version
       uses: actions/checkout@v3
 
-    - name: Set env
-      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
     -
       name: Log in to docker registry
       uses: docker/login-action@v1
@@ -37,9 +34,9 @@ jobs:
           file: ./Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaofront:${{ env.RELEASE_VERSION }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaofront:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaofront:buildcache,mode=max
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/capacitacaofront:${GITHUB_REF#refs/*/}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/capacitacaofront:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/capacitacaofront:buildcache,mode=max
 
     -
         name: Build and push
@@ -49,6 +46,7 @@ jobs:
           file: ./capacitacaoDocker/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaoback:${{ env.RELEASE_VERSION }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaoback:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaoback:buildcache,mode=max
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/capacitacaoback:${GITHUB_REF#refs/*/}
+          cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/capacitacaoback:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/capacitacaoback:buildcache,mode=max
+
