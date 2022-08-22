@@ -28,7 +28,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: ./capacitacao-docker-front
-          file: ./Dockerfile
+          file: ./capacitacao-docker-front/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/capacitacaofront:latest
 
