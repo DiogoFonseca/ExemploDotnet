@@ -24,9 +24,15 @@ jobs:
 
     - name: Build Frontend image
       run: docker build --tag ${{ secrets.DOCKERHUB_USERNAME }}/capacitacaofront:${GITHUB_REF#refs/*/} ./capacitacao-docker-front
+      with:
+        cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaofront:buildcache
+        cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaofront:buildcache,mode=max
 
     - name: Build Backend image
       run: docker build --tag ${{ secrets.DOCKERHUB_USERNAME }}/capacitacaoback:${GITHUB_REF#refs/*/} --file ././capacitacaoDocker/capacitacaoDocker/Dockerfile ./capacitacaoDocker
+      with:
+        cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaofront:buildcache
+        cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/capacitacaofront:buildcache,mode=max
 
     -
       name: Push backend to dockerhub
